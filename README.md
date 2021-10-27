@@ -42,9 +42,19 @@ hse21_hw1
 
     platanus scaffold -o Poil -t 1 -c Poil_contig.fa -IP1 oil_R1_seq.fastq.trimmed oil_R2_seq.fastq.trimmed -OP2 oilMP_S4_L001_R1_001_seq.fastq.int_trimmed     oilMP_S4_L001_R2_001_seq.fastq.int_trimmed 2> scaffold.log
 
+-> поиск самого длинного скаффолда (самые длинные скаффолды находим в питоне):
+
+    echo scaffold1_len3831286_cov232 > max_scaffold.txt
+    seqtk subseq Poil_scaffold.fa max_scaffold.txt > max_scaffold.fa
+    
 -> удаление гэпов с **platanus gap_close**:
 
     platanus gap_close -o Poil -t 1 -c Poil_scaffold.fa -IP1 oil_R1_seq.fastq.trimmed oil_R2_seq.fastq.trimmed -OP2 oilMP_S4_L001_R1_001_seq.fastq.int_trimmed oilMP_S4_L001_R2_001_seq.fastq.int_trimmed 2> gapclose.log
+
+-> поиск самого длинного скаффолда:
+
+    echo scaffold62_cov2385 > max_scaffold.txt
+    seqtk subseq Poil_gapClosed.fa max_scaffold.txt > max_scaffold_gapClosed.fa
 
 -> удаление лишних файлов осуществляется командой **rm**
 
@@ -108,6 +118,8 @@ hse21_hw1
             l = []
             if line.startswith('>'):
                 l.append()
+                if float(line.split('_')[1][3:]) == 3831286.0:
+                    print(line)
 
         print('общее кол-во скаффолдов:', len(l))
         print('общая длина скаффолдов:', np.sum(l))
@@ -143,6 +155,8 @@ hse21_hw1
     for line in scaffold:
         if line.startswith('>'):
             l.append(float(line.split('_')[1][3:]))
+            if float(line.split('_')[1][3:]) == 2385.0:
+                print(line)
 
     print('общее кол-во скаффолдов:', len(l))
     print('общая длина скаффолдов:', np.sum(l))
