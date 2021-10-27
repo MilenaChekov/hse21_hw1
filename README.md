@@ -40,7 +40,7 @@ hse21_hw1
 
 -> сборка скаффолдов с использованием **platanus scaffold**:
 
-    platanus scaffold -o Poil -t 1 -c Poil_contig.fa -IP1 oil_R1_seq.fastq.trimmed oil_R2_seq.fastq.trimmed -OP2 oilMP_S4_L001_R1_001_seq.fastq.int_trimmed oilMP_S4_L001_R2_001_seq.fastq.int_trimmed 2> scaffold.log
+    platanus scaffold -o Poil -t 1 -c Poil_contig.fa -IP1 oil_R1_seq.fastq.trimmed oil_R2_seq.fastq.trimmed -OP2 oilMP_S4_L001_R1_001_seq.fastq.int_trimmed     oilMP_S4_L001_R2_001_seq.fastq.int_trimmed 2> scaffold.log
 
 -> удаление гэпов с **platanus gap_close**:
 
@@ -52,19 +52,60 @@ hse21_hw1
 
 # Сравнение качества чтений до и после подрезания:
 
-->
+-> Сырые данные
+<img width="1093" alt="Снимок экрана 2021-10-27 в 21 53 48" src="https://user-images.githubusercontent.com/60537367/139128858-1c860cd3-eb96-4b70-9eaa-246195844bd0.png">
 
-->
+<img width="1092" alt="Снимок экрана 2021-10-27 в 21 50 58" src="https://user-images.githubusercontent.com/60537367/139128444-bae7865f-1aff-4883-b1a4-c5228ed20c14.png">
 
--> Выводы:
+<img width="1094" alt="Снимок экрана 2021-10-27 в 21 55 21" src="https://user-images.githubusercontent.com/60537367/139129060-f776a449-65a7-49c3-876a-b5cbdca74341.png">
 
-1.
-2.
+-> После обработки
+<img width="1098" alt="Снимок экрана 2021-10-27 в 21 54 02" src="https://user-images.githubusercontent.com/60537367/139128886-a3f30c03-570e-437d-a470-a671e3efc0cd.png">
+
+<img width="1092" alt="Снимок экрана 2021-10-27 в 21 51 24" src="https://user-images.githubusercontent.com/60537367/139128507-17cc5571-db6d-48c7-a179-2bd1f806b146.png">
+
+<img width="1093" alt="Снимок экрана 2021-10-27 в 21 55 08" src="https://user-images.githubusercontent.com/60537367/139129039-66c55871-1744-440e-918d-705e78bef895.png">
+
+-> Выводы (их также можно проследить на скриншотах ниже - сверху до, ниже после):
+
+1. Качество улучшилось 
+2. Длина уменьшилась
+3. Удалились адаптеры
+<img width="1088" alt="Снимок экрана 2021-10-27 в 21 56 54" src="https://user-images.githubusercontent.com/60537367/139129272-b4148078-c61b-405a-b116-0734b6bcbfbb.png">
+<img width="1089" alt="Снимок экрана 2021-10-27 в 21 57 13" src="https://user-images.githubusercontent.com/60537367/139129315-39210950-e6dd-4adb-a50e-a8ff288a8fea.png">
 
 # Код python:
 
--> Анализ полученных контигов (общее кол-во контигов, их общая длина, длина самого длинного контига, N50)
+-> Анализ полученных контигов (общее кол-во контигов, их общая длина, длина самого длинного контига, N50):
+        
+        import numpy as np
+        with open('') as contig:
+            contig = contig.readlines()
 
--> Анализ полученных скаффолдов (общее кол-во скаффолдов, их общая длина, длина самого длинного скаффолда, N50)
+        for line in contig:
+            l = []
+            if line.startswith('>'):
+                l.append()
+
+        print('общее кол-во контигов:', len(l))
+        print('общая длина контигов:', np.sum(l))
+        print('длина самого длинного контига:', np.max(l))
+        print('N50:', np.min([a for a in l if a > np.sum(l)/2]))
+
+-> Анализ полученных скаффолдов (общее кол-во скаффолдов, их общая длина, длина самого длинного скаффолда, N50):
+
+        import numpy as np
+        with open('') as scaffold:
+            scaffold = scaffold.readlines()
+
+        for line in scaffold:
+            l = []
+            if line.startswith('>'):
+                l.append()
+
+        print('общее кол-во скаффолдов:', len(l))
+        print('общая длина скаффолдов:', np.sum(l))
+        print('длина самого длинного скаффолда:', np.max(l))
+        print('N50:', np.min([a for a in l if a > np.sum(l)/2]))
 
 -> Найти самый длинный скаффолд, посчитать количество гэпов и общую длину:
