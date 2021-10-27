@@ -127,7 +127,7 @@ hse21_hw1
     with open('max_scaffold.fa') as max_scaf:
         max_scaf = max_scaf.read()
         c = 0
-        for i in range(len(max_scaf)):
+        for i in range(len(max_scaf)-1):
             if max_scaf[i] == 'N' and max_scaf[i] != max_scaf[i+1]:
                 c += 1
         print('Общая длина гэпов:', max_scaf.count('N'))
@@ -162,7 +162,7 @@ hse21_hw1
     with open('max_scaffold_gapClosed.fa') as max_scaf:
         max_scaf = max_scaf.read()
         c = 0
-        for i in range(len(max_scaf)):
+        for i in range(len(max_scaf)-1):
             if max_scaf[i] == 'N' and max_scaf[i] != max_scaf[i + 1]:
                 c += 1
         print('Общая длина гэпов:', max_scaf.count('N'))
