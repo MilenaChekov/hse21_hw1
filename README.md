@@ -44,7 +44,7 @@ hse21_hw1
 
 -> удаление гэпов с **platanus gap_close**:
 
-    platanus gap_close -o Poil_gap_close -t 1 -c Poil_scaffold.fa -IP1 oil_R1_seq.fastq.trimmed oil_R2_seq.fastq.trimmed -OP2 oilMP_S4_L001_R1_001_seq.fastq.int_trimmed oilMP_S4_L001_R2_001_seq.fastq.int_trimmed 2> gapclose.log
+    platanus gap_close -o Poil -t 1 -c Poil_scaffold.fa -IP1 oil_R1_seq.fastq.trimmed oil_R2_seq.fastq.trimmed -OP2 oilMP_S4_L001_R1_001_seq.fastq.int_trimmed oilMP_S4_L001_R2_001_seq.fastq.int_trimmed 2> gapclose.log
 
 -> удаление лишних файлов осуществляется командой **rm**
 
@@ -77,26 +77,32 @@ hse21_hw1
 # Код python:
 
 -> Анализ полученных контигов (общее кол-во контигов, их общая длина, длина самого длинного контига, N50):
-        
-        import numpy as np
-        with open('') as contig:
-            contig = contig.readlines()
+    
+    with open('Poil_contig.fa') as contig:
+        contig = contig.readlines()
 
         for line in contig:
             l = []
             if line.startswith('>'):
-                l.append()
+                l.append(float(line.split('_')[1][3:]))
 
         print('общее кол-во контигов:', len(l))
         print('общая длина контигов:', np.sum(l))
         print('длина самого длинного контига:', np.max(l))
-        print('N50:', np.min([a for a in l if a > np.sum(l)/2]))
+        
+        s = np.sum(l)/2
+        l.sort()
+        c = 0
+        for i in l[-1::-1]:
+            c += i
+            if c >= s:
+                print('N50:', i)
+            break
 
--> Анализ полученных скаффолдов (общее кол-во скаффолдов, их общая длина, длина самого длинного скаффолда, N50):
+-> Анализ полученных скаффолдов с гэпами(общее кол-во скаффолдов, их общая длина, длина самого длинного скаффолда, N50):
 
-        import numpy as np
-        with open('') as scaffold:
-            scaffold = scaffold.readlines()
+    with open('Poil_scaffold.fa') as scaffold:
+        scaffold = scaffold.readlines()
 
         for line in scaffold:
             l = []
@@ -106,6 +112,61 @@ hse21_hw1
         print('общее кол-во скаффолдов:', len(l))
         print('общая длина скаффолдов:', np.sum(l))
         print('длина самого длинного скаффолда:', np.max(l))
-        print('N50:', np.min([a for a in l if a > np.sum(l)/2]))
+        
+        s = np.sum(l)/2
+        l.sort()
+        c = 0
+        for i in l[-1::-1]:
+            c += i
+            if c >= s:
+                print('N50:', i)
+            break
 
 -> Найти самый длинный скаффолд, посчитать количество гэпов и общую длину:
+
+    with open('max_scaffold.fa') as max_scaf:
+        max_scaf = max_scaf.read()
+        c = 0
+        for i in range(len(max_scaf)):
+            if max_scaf[i] == 'N' and max_scaf[i] != max_scaf[i+1]:
+                c += 1
+        print('Общая длина гэпов:', max_scaf.count('N'))
+    
+    print('Количество гэпов:', c)
+ 
+-> Анализ полученных скаффолдов с удалением гэпов (общее кол-во скаффолдов, их общая длина, длина самого длинного скаффолда, N50):
+
+    with open('Poil_gapClosed.fa') as scaffold:
+    scaffold = scaffold.readlines()
+    l = []
+
+    for line in scaffold:
+        if line.startswith('>'):
+            l.append(float(line.split('_')[1][3:]))
+
+    print('общее кол-во скаффолдов:', len(l))
+    print('общая длина скаффолдов:', np.sum(l))
+    print('длина самого длинного скаффолда:', np.max(l))
+
+    s = np.sum(l)/2
+    l.sort()
+    c = 0
+    for i in l[-1::-1]:
+        c += i
+        if c >= s:
+            print('N50:', i)
+            break
+
+-> Найти самый длинный скаффолд, посчитать количество гэпов и общую длину:
+    
+    with open('max_scaffold_gapClosed.fa') as max_scaf:
+        max_scaf = max_scaf.read()
+        c = 0
+        for i in range(len(max_scaf)):
+            if max_scaf[i] == 'N' and max_scaf[i] != max_scaf[i + 1]:
+                c += 1
+        print('Общая длина гэпов:', max_scaf.count('N'))
+    print('Количество гэпов:', c)
+
+<img width="214" alt="Снимок экрана 2021-10-27 в 23 25 12" src="https://user-images.githubusercontent.com/60537367/139141602-a8f3188a-d86a-4cf5-99b7-fc26c0adc65d.png">
+все гэпы удалены
